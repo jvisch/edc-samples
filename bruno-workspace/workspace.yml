@@ -1,0 +1,12 @@
+opencollection: 1.0.0
+info:
+  name: "edc samples"
+  type: workspace
+
+collections:
+  - name: "basic"
+    path: "collections/basic"
+
+specs:
+
+docs: ''
