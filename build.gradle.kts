@@ -41,6 +41,10 @@ allprojects {
             showStandardStreams = true
         }
     }
+    
+    tasks.withType<JavaExec>().configureEach { 
+        systemProperties(gradle.startParameter.systemPropertiesArgs) 
+    }
 
 }
 
