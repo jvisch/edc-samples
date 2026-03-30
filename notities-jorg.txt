@@ -1,6 +1,0 @@
-./gradlew :basic:basic-02-health-endpoint:run --debug-jvm
-
-./gradlew -Dedc.fs.config=/etc/eclipse/dataspaceconnector/config.properties :basic:basic-03-configuration:run --console=plain
-./gradlew -Dedc.fs.config=/etc/eclipse/dataspaceconnector/config.properties basic:basic-03-configuration:run
-
-./gradlew :basic:basic-03-configuration:run --console=plain --system-prop edc.fs.config=/etc/eclipse/dataspaceconnector/config.properties
