@@ -46,6 +46,11 @@ dataconsumer --> user : {{contractAgreementId}}
 user -> dataconsumer : 02.1 push data\nPOST /management/v3/transferprocesses\n{{contractAgreementId}}
 dataconsumer -> dataprovider : "magic"
 dataprovider -> dataconsumer
-dataconsumer -> user
+dataconsumer -> user : {{transfer-process-id}}
+
+user -> dataconsumer : 02.2 get status transer\nGET management/v3/transferprocesses/{{transfer-process-id}}
+dataconsumer -> dataprovider : "magic"
+dataprovider -> dataconsumer
+dataconsumer -> user : state
 
 @enduml
