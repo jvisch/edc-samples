@@ -1,0 +1,40 @@
+info:
+  name: 03.1 start transfer (for file upload)
+  type: http
+  seq: 11
+
+http:
+  method: POST
+  url: http://localhost:29193/management/v3/transferprocesses
+  body:
+    type: json
+    data: |
+      {
+        "@context": {
+          "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+        },
+        "@type": "TransferRequestDto",
+        "connectorId": "provider",
+        "counterPartyAddress": "http://localhost:19194/protocol",
+        "contractId": "{{contract-agreement-id}}",
+        "protocol": "dataspace-protocol-http",
+        "transferType": "HttpData-PULL"
+      }
+  auth: inherit
+
+runtime:
+  actions:
+    - type: set-variable
+      phase: after-response
+      selector:
+        expression: res('@id')
+        method: jsonq
+      variable:
+        name: transfer-process-id
+        scope: runtime
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

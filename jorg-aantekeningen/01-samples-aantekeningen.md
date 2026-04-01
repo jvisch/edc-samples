@@ -211,3 +211,26 @@ Consumer:
     status op STARTED staat. Na enige tijd gaat 'ie naar TERMINATED,
     tenzij je wat eerder de logger weer start, dan zie je de data wat
     later binnenkomen.
+
+## Transfer 03 Implement a simple "Consumer Pull" Http transfer flow
+
+1.  Er een simple consumer gemaakt met een get interface
+
+2.  het voorbeeld runnen
+
+    Let op, eerst de eerder opgstarte consumer en provider stoppen.
+
+    -   eerst bouwen
+        `./gradlew transfer:transfer-03-consumer-pull:provider-proxy-data-plane:build`
+
+    -   dan runnen:
+
+        consumer (gelijk aan stap 00)
+
+            ./gradlew transfer:transfer-00-prerequisites:connector:run \
+                      -Dedc.fs.config=../resources/configuration/consumer-configuration.properties
+
+        provider (met config uit transfer 03)
+
+            ./gradlew transfer:transfer-03-consumer-pull:provider-proxy-data-plane:run \
+                      -Dedc.fs.config=../resources/configuration/provider.properties
