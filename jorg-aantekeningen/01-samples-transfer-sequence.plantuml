@@ -1,0 +1,44 @@
+@startuml
+
+actor configuration as config
+
+participant "Data Provider" as dataprovider << connector >>
+participant "Data Consumer" as dataconsumer << connector >>
+
+actor user
+' Transfer sample 01
+' "Implement a negotiation workflow between two connectors"
+' toevoegen van een asset aan de data provider
+
+== initialisatie ==
+activate dataprovider
+activate dataconsumer
+
+config -> dataprovider : 01.1 add asset\nPOST /management/v3/assets
+dataprovider --> config
+|||
+config -> dataprovider : 01.2 create policy\nPOST /management/v3/policydefinitions
+dataprovider --> config
+|||
+config -> dataprovider : 01.3 create contract\nPOST /management/v3/contractdefinitions
+dataprovider --> config
+
+== transfer ==
+
+user -> dataconsumer : 01.4 fetch catalog to get 'contract-offer-id'\nPOST /management/v3/catalog/request
+dataconsumer -> dataprovider : "magic"
+dataprovider --> dataconsumer
+dataconsumer --> user : {{contract-offer-id}}
+|||
+user -> dataconsumer : 01.5 negotiate contract\nPOST /management/v3/contractnegotiations\n{{contract-offer-id}}
+dataconsumer -> dataprovider : "magic"
+dataprovider --> dataconsumer
+dataconsumer --> user : {{contract-negotiation-id}}
+
+user -> dataconsumer : 01.6 get contract agreement id\nGET /management/v3/contractnegotiations/{{contract-negotiation-id}}
+dataconsumer -> dataprovider : "magic"
+dataprovider --> dataconsumer
+dataconsumer --> user : {{contractAgreementId}}
+
+
+@enduml
