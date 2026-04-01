@@ -1,5 +1,8 @@
 # EDC samples
 
+De voorbeelden zijn uitgevoerd in een WSL-omgeving met
+Ubuntu 24.04.4 LTS.
+
 ## Basic 1, 2 en 3
 
 Debug run (`--debug-jvm`)
