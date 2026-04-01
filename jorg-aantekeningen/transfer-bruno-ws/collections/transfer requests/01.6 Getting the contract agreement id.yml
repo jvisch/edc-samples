@@ -1,7 +1,7 @@
 info:
   name: 01.6 Getting the contract agreement id
   type: http
-  seq: 11
+  seq: 6
 
 http:
   method: GET
@@ -16,7 +16,7 @@ runtime:
         expression: res('contractAgreementId')
         method: jsonq
       variable:
-        name: 485b42d0-6841-4dee-a670-ba644ce4e29f
+        name: contract-agreement-id
         scope: runtime
 
 settings:

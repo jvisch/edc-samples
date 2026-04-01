@@ -1,15 +1,16 @@
-@startuml
+@startuml transfer sample
+
+actor "user/app" as user
+
+participant "Data Consumer" as dataconsumer << connector >>
+participant "Data Provider" as dataprovider << connector >>
 
 actor configuration as config
 
-participant "Data Provider" as dataprovider << connector >>
-participant "Data Consumer" as dataconsumer << connector >>
-
-actor user
 ' Transfer sample 01
 ' "Implement a negotiation workflow between two connectors"
 ' toevoegen van een asset aan de data provider
-
+== 01 Implement a negotiation workflow between two connectors ==
 == initialisatie ==
 activate dataprovider
 activate dataconsumer
@@ -40,5 +41,11 @@ dataconsumer -> dataprovider : "magic"
 dataprovider --> dataconsumer
 dataconsumer --> user : {{contractAgreementId}}
 
+== 02 Implement a simple "Provider Push" Http transfer flow ==
+
+user -> dataconsumer : 02.1 push data\nPOST /management/v3/transferprocesses\n{{contractAgreementId}}
+dataconsumer -> dataprovider : "magic"
+dataprovider -> dataconsumer
+dataconsumer -> user
 
 @enduml

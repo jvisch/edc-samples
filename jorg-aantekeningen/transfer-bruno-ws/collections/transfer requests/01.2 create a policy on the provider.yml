@@ -1,7 +1,7 @@
 info:
   name: 01.2 create a policy on the provider
   type: http
-  seq: 3
+  seq: 2
 
 http:
   method: POST

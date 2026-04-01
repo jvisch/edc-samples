@@ -1,7 +1,7 @@
 opencollection: 1.0.0
 
 info:
-  name: transfer 01
+  name: transfer
 config:
   proxy:
     inherit: true

@@ -1,7 +1,7 @@
 info:
   name: 01.3 create contract definition on provider
   type: http
-  seq: 5
+  seq: 3
 
 http:
   method: POST

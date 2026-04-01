@@ -3,6 +3,8 @@
 De voorbeelden zijn uitgevoerd in een WSL-omgeving met
 Ubuntu 24.04.4 LTS.
 
+Om de api te testen gebruik Bruno <https://www.usebruno.com/>
+
 ## Basic 1, 2 en 3
 
 Debug run (`--debug-jvm`)
@@ -157,3 +159,55 @@ Consumer:
     }
     }
     ```
+
+## Transfer 02 Provider push (http transfer flow)
+
+1.  start een httpserver (een http request logger)
+
+        docker build -t http-request-logger util/http-request-logger
+        docker run -p 4000:4000 http-request-logger
+
+    De Dockerfile staat in de map 'samples/util/http-request-logger',
+    kan je vanaf de commmandline (workdir ./samles/ aanroepen). Als je
+    in WSL2 werkt, moet je in docker (de applicatie) aangeven dat er een
+    integratie is met docker de wsl-image waarbinnen je werkt. En op
+    linux werkt docker onder `sudo`, dus dat moet je er wel voor typen.
+
+    Dit print http request (op poort 4000) naar de terminal.
+
+2.  start de transfer (vanuit de consumer)
+
+        curl -X POST "http://localhost:29193/management/v3/transferprocesses" \
+        -H "Content-Type: application/json" \
+        -d @transfer/transfer-02-provider-push/resources/start-transfer.json \
+        -s | jq
+
+    In de body van de json heb je het {{contract-agreement-id}} van
+    stap 6 van vorige deel (transfor 01). In de Bruno omgeving (de api
+    testomgeving) wordt dat automatisch gedaan met uitlezen van de
+    variabelen uit de response.
+
+    Deze transfer zorgt ervoor dat de data uit de *asset* (stap 01.1)
+    naar de opgeven url gaat. In het json-bericht van de call hierboven
+    staat dat de `dataDestination` is
+    `http://localhost:4000/api/consumer/store`.
+
+3.  check transfer status
+
+        curl http://localhost:29193/management/v3/transferprocesses/<transfer process id>
+
+    Er is een statemachine die de transfer beschrijft zie
+    <https://eclipse-edc.github.io/documentation/for-adopters/control-plane/#transfer-process-states>
+
+    De request (en push) wordt heel snel afgehandeld, dus waarschijnlijk
+    krijg je alleen de status `COMPLETED` te zien.
+
+    In de terminal waar de docker in is gestart, zal de data nu
+    afgedrukt worden. In de asset uit stap 01.1 staat dat de baseUrl
+    gelijk is aan `https://jsonplaceholder.typicode.com/users` en de
+    data uit die url wordt naar de consumer gepusht. Het proces is heel
+    snel, daarom zul je bijna alleen maar COMPLETED zien. Zet de
+    http-logger uit, je zult dan zien dat na de transfer aanvraag de
+    status op STARTED staat. Na enige tijd gaat 'ie naar TERMINATED,
+    tenzij je wat eerder de logger weer start, dan zie je de data wat
+    later binnenkomen.

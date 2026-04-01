@@ -1,27 +1,27 @@
 info:
-  name: 01. 5 Negotiate a contract (consumer asks provider)
+  name: 02.2 start de tranfer (vanuit consumer)
   type: http
-  seq: 9
+  seq: 7
 
 http:
   method: POST
-  url: http://localhost:29193/management/v3/contractnegotiations
+  url: http://localhost:29193/management/v3/transferprocesses
   body:
     type: json
-    data: |-
+    data: |
       {
         "@context": {
           "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
         },
-        "@type": "ContractRequest",
+        "@type": "TransferRequestDto",
+        "connectorId": "provider",
         "counterPartyAddress": "http://localhost:19194/protocol",
+        "contractId": "{{contract-agreement-id}}",
         "protocol": "dataspace-protocol-http",
-        "policy": {
-          "@context": "http://www.w3.org/ns/odrl.jsonld",
-          "@id": "{{contract-offer-id}}",
-          "@type": "Offer",
-          "assigner": "provider",
-          "target": "assetId"
+        "transferType": "HttpData-PUSH",
+        "dataDestination": {
+          "type": "HttpData",
+          "baseUrl": "http://localhost:4000/api/consumer/store"
         }
       }
   auth: inherit
@@ -34,7 +34,7 @@ runtime:
         expression: res('@id')
         method: jsonq
       variable:
-        name: contract-negotiation-id
+        name: transfer-process-id
         scope: runtime
 
 settings:
