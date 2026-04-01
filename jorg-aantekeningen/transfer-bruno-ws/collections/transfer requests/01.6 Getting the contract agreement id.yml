@@ -1,0 +1,26 @@
+info:
+  name: 01.6 Getting the contract agreement id
+  type: http
+  seq: 11
+
+http:
+  method: GET
+  url: http://localhost:29193/management/v3/contractnegotiations/{{contract-negotiation-id}}
+  auth: inherit
+
+runtime:
+  actions:
+    - type: set-variable
+      phase: after-response
+      selector:
+        expression: res('contractAgreementId')
+        method: jsonq
+      variable:
+        name: 485b42d0-6841-4dee-a670-ba644ce4e29f
+        scope: runtime
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,32 @@
+info:
+  name: 01.2 create a policy on the provider
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:19193/management/v3/policydefinitions
+  body:
+    type: json
+    data: |-
+      {
+        "@context": {
+          "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+          "odrl": "http://www.w3.org/ns/odrl/2/"
+        },
+        "@id": "aPolicy",
+        "policy": {
+          "@context": "http://www.w3.org/ns/odrl.jsonld",
+          "@type": "Set",
+          "permission": [],
+          "prohibition": [],
+          "obligation": []
+        }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,34 @@
+info:
+  name: 01.1 create asset on the provider side
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:19193/management/v3/assets
+  body:
+    type: json
+    data: |
+      {
+        "@context": {
+          "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+        },
+        "@id": "assetId",
+        "properties": {
+          "name": "product description",
+          "contenttype": "application/json"
+        },
+        "dataAddress": {
+          "type": "HttpData",
+          "name": "Test asset",
+          "baseUrl": "https://jsonplaceholder.typicode.com/users",
+          "proxyPath": "true"
+        }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,12 @@
+opencollection: 1.0.0
+info:
+  name: "transfer-bruno-ws"
+  type: workspace
+
+collections:
+  - name: "transfer requests"
+    path: "collections/transfer requests"
+
+specs:
+
+docs: "alle requests van het sample Transfer"

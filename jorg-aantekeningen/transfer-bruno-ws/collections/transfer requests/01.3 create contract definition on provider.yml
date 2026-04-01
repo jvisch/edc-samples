@@ -1,0 +1,27 @@
+info:
+  name: 01.3 create contract definition on provider
+  type: http
+  seq: 5
+
+http:
+  method: POST
+  url: http://localhost:19193/management/v3/contractdefinitions
+  body:
+    type: json
+    data: |
+      {
+        "@context": {
+          "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+        },
+        "@id": "1",
+        "accessPolicyId": "aPolicy",
+        "contractPolicyId": "aPolicy",
+        "assetsSelector": []
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
