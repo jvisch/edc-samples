@@ -1,0 +1,18 @@
+info:
+  name: 03.5 check data (get specific user)
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: http://localhost:19291/public/1
+  headers:
+    - name: Authorization
+      value: "{{edr-authorization-attribute}}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

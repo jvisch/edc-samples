@@ -237,7 +237,9 @@ Consumer:
 
     a.  Om deze test te doen, moet je eerst de Provider en de Consumer
         connector weer runnen. Transfer 00 om op te starten en stap 01.1
-        t/m 01.3 om de provider te initialiseren.
+        t/m 01.3 om de provider te initialiseren. Zonder een asset werkt
+        het niet, er moet dus wel "data" aan de provider-connector zijn
+        toegevoegd.
 
     b.  Daarnaast de complete negotiation gedaan hebben (stap 01.4 t/m
         01.6) om een {{contract-agreement-id}} te hebben.

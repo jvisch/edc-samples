@@ -1,0 +1,26 @@
+info:
+  name: 03.3 check the data (get EndpointDataReference)
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: http://localhost:29193/management/v3/edrs/{{transfer-process-id}}/dataaddress
+  auth: inherit
+
+runtime:
+  actions:
+    - type: set-variable
+      phase: after-response
+      selector:
+        expression: res('authorization')
+        method: jsonq
+      variable:
+        name: edr-authorization-attribute
+        scope: runtime
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
