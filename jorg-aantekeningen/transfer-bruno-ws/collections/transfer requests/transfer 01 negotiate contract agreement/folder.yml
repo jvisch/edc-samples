@@ -1,0 +1,7 @@
+info:
+  name: transfer 01 negotiate contract agreement
+  type: folder
+  seq: 2
+
+request:
+  auth: inherit

@@ -1,7 +1,7 @@
 info:
   name: 02.3 check transfer status
   type: http
-  seq: 8
+  seq: 1
 
 http:
   method: GET

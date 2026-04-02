@@ -1,24 +1,20 @@
 info:
-  name: 03.1 start transfer (for file upload)
+  name: 01.4 how to fetch catalog on consumer side
   type: http
-  seq: 11
+  seq: 1
 
 http:
   method: POST
-  url: http://localhost:29193/management/v3/transferprocesses
+  url: http://localhost:29193/management/v3/catalog/request
   body:
     type: json
-    data: |
+    data: |-
       {
         "@context": {
           "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
         },
-        "@type": "TransferRequestDto",
-        "connectorId": "provider",
         "counterPartyAddress": "http://localhost:19194/protocol",
-        "contractId": "{{contract-agreement-id}}",
-        "protocol": "dataspace-protocol-http",
-        "transferType": "HttpData-PULL"
+        "protocol": "dataspace-protocol-http"
       }
   auth: inherit
 
@@ -27,10 +23,10 @@ runtime:
     - type: set-variable
       phase: after-response
       selector:
-        expression: res('@id')
+        expression: res('dcat:dataset.odrl:hasPolicy.@id')
         method: jsonq
       variable:
-        name: transfer-process-id
+        name: contract-offer-id
         scope: runtime
 
 settings:

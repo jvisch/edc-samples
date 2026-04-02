@@ -1,7 +1,7 @@
 info:
-  name: 02.2 start de tranfer (vanuit consumer)
+  name: 03.1 start transfer (for file upload)
   type: http
-  seq: 7
+  seq: 2
 
 http:
   method: POST
@@ -18,11 +18,7 @@ http:
         "counterPartyAddress": "http://localhost:19194/protocol",
         "contractId": "{{contract-agreement-id}}",
         "protocol": "dataspace-protocol-http",
-        "transferType": "HttpData-PUSH",
-        "dataDestination": {
-          "type": "HttpData",
-          "baseUrl": "http://localhost:4000/api/consumer/store"
-        }
+        "transferType": "HttpData-PULL"
       }
   auth: inherit
 

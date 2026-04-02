@@ -1,0 +1,7 @@
+info:
+  name: transfer 01 initialisatie provider
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit

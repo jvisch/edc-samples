@@ -1,7 +1,7 @@
 info:
   name: 01.6 Getting the contract agreement id
   type: http
-  seq: 6
+  seq: 3
 
 http:
   method: GET
