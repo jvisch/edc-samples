@@ -1,0 +1,7 @@
+info:
+  name: transfer 04 simple event consumer
+  type: folder
+  seq: 5
+
+request:
+  auth: inherit

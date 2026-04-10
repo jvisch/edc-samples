@@ -270,3 +270,43 @@ Consumer:
         Ophalen van de 1e user:
 
             curl --location --request GET 'http://localhost:19291/public/1' --header 'Authorization: <auth code>'
+
+## Transfer 04 Implement a simple event consumer
+
+1.  Bouw de consumer en start deze op met de listener
+
+    bouwen:
+
+        ./gradlew transfer:transfer-04-event-consumer:consumer-with-listener:build
+
+    opstarten:
+
+        java -Dedc.fs.config=transfer/transfer-00-prerequisites/resources/configuration/consumer-configuration.properties -jar transfer/transfer-04-event-consumer/consumer-with-listener/build/libs/connector.jar
+
+
+        ./gradlew transfer:transfer-04-event-consumer:consumer-with-listener:run \
+            -Dedc.fs.config=../../transfer-00-prerequisites/resources/configuration/consumer-configuration.properties
+
+2.  Nieuw contract ophalen
+
+        curl -d @transfer/transfer-01-negotiation/resources/negotiate-contract.json \
+            -X POST -H 'content-type: application/json' http://localhost:29193/management/v3/contractnegotiations \
+            -s | jq
+
+3.  Perform a file transfer
+   
+    a.  start een httpserver (een http request logger)
+
+        docker build -t http-request-logger util/http-request-logger
+        docker run -p 4000:4000 http-request-logger
+
+    b. Start het process
+
+        ````
+        curl -X POST "http://localhost:29193/management/v3/transferprocesses" \
+            -H "Content-Type: application/json" \
+            -d @transfer/transfer-02-provider-push/resources/start-transfer.json \
+            -s | jq
+        ````
+
+        

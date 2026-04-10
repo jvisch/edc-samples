@@ -1,0 +1,33 @@
+info:
+  name: 04.3 start process
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:29193/management/v3/transferprocesses
+  body:
+    type: json
+    data: |-
+      {
+        "@context": {
+          "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+        },
+        "@type": "TransferRequestDto",
+        "connectorId": "provider",
+        "counterPartyAddress": "http://localhost:19194/protocol",
+        "contractId": "{{contract-agreement-id}}",
+        "protocol": "dataspace-protocol-http",
+        "transferType": "HttpData-PUSH",
+        "dataDestination": {
+          "type": "HttpData",
+          "baseUrl": "http://localhost:4000/api/consumer/store"
+        }
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -5,6 +5,8 @@ actor "user/app" as user
 participant "Data Consumer" as dataconsumer << connector >>
 participant "Data Provider" as dataprovider << connector >>
 
+participant "http request logger" as logger << webserver >>
+
 actor configuration as config
 
 ' Transfer sample 01
@@ -42,14 +44,18 @@ dataprovider --> dataconsumer
 dataconsumer --> user : {{contractAgreementId}}
 
 == 02 Implement a simple "Provider Push" Http transfer flow ==
+activate logger
 
 user -> dataconsumer : 02.1 push data\nPOST /management/v3/transferprocesses\n{{contractAgreementId}}
 dataconsumer -> dataprovider : "magic"
-dataprovider -> dataconsumer
+dataprovider -> logger : data
+dataprovider --> dataconsumer
 dataconsumer -> user : {{transfer-process-id}}
 |||
 user -> dataconsumer : 02.2 get status transer\nGET management/v3/transferprocesses/{{transfer-process-id}}
 dataconsumer -> user : state
+
+deactivate logger
 
 == 03 Implement a simple "Consumer Pull" Http transfer flow ==
 user -> dataconsumer : 03.1 start transfer\nPOST http://localhost:29193/management/v3/transferprocesses\n{{contractAgreementId}}
@@ -71,4 +77,25 @@ dataprovider --> user : data
 user -> dataprovider : 03.5 get data\nhttp://localhost:19291/public/1\Header: 'Authorization: {{authorization}}'
 dataprovider --> user : data
 
+== Transfer 04 Implement a simple event consumer ==
+
+activate logger
+
+user -> dataconsumer : 04.1 negotiate contract\nPOST /management/v3/contractnegotiations\n{{contract-offer-id}}
+dataconsumer -> dataprovider : "magic"
+dataprovider --> dataconsumer
+dataconsumer --> user : {{contract-negotiation-id}}
+|||
+user -> dataconsumer : 04.2 get contract agreement id\nGET /management/v3/contractnegotiations/{{contract-negotiation-id}}
+dataconsumer -> dataprovider : "magic"
+dataprovider --> dataconsumer
+dataconsumer --> user : {{contractAgreementId}}
+|||
+user -> dataconsumer : 04.3 start process\nPOST http://localhost:29193/management/v3/transferprocesses\n{{contractAgreementId}}
+dataconsumer -> dataprovider : "magic"
+dataprovider -> logger : data
+dataprovider --> dataconsumer
+dataconsumer -> user
+
+deactivate logger
 @enduml
