@@ -243,3 +243,30 @@ Consumer:
 
     b.  Daarnaast de complete negotiation gedaan hebben (stap 01.4 t/m
         01.6) om een {{contract-agreement-id}} te hebben.
+
+    c.  Start de transfer:
+
+            curl -X POST "http://localhost:29193/management/v3/transferprocesses" \
+            -H "Content-Type: application/json" \
+            -d @transfer/transfer-03-consumer-pull/resources/start-transfer.json \
+            -s | jq
+
+    d.  Check de status van de transfer
+
+            curl http://localhost:29193/management/v3/transferprocesses/<transfer process id> | jq
+
+    e.  Check de data
+
+            curl http://localhost:29193/management/v3/edrs/<transfer process id>/dataaddress | jq
+
+    f.  Nu kan de data opgehaald worden
+
+            curl --location --request GET 'http://localhost:19291/public/' --header 'Authorization: <edr authorization attribute>'
+
+        het adress (localhost:19291) komt uit de response van de stap
+        hiervoor, de Authorization token ook. De response geeft een
+        "lijst van users" (testdata) terug.
+
+        Ophalen van de 1e user:
+
+            curl --location --request GET 'http://localhost:19291/public/1' --header 'Authorization: <auth code>'

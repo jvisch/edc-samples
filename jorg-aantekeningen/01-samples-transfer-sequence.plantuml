@@ -35,7 +35,7 @@ user -> dataconsumer : 01.5 negotiate contract\nPOST /management/v3/contractnego
 dataconsumer -> dataprovider : "magic"
 dataprovider --> dataconsumer
 dataconsumer --> user : {{contract-negotiation-id}}
-
+|||
 user -> dataconsumer : 01.6 get contract agreement id\nGET /management/v3/contractnegotiations/{{contract-negotiation-id}}
 dataconsumer -> dataprovider : "magic"
 dataprovider --> dataconsumer
@@ -47,10 +47,28 @@ user -> dataconsumer : 02.1 push data\nPOST /management/v3/transferprocesses\n{{
 dataconsumer -> dataprovider : "magic"
 dataprovider -> dataconsumer
 dataconsumer -> user : {{transfer-process-id}}
-
+|||
 user -> dataconsumer : 02.2 get status transer\nGET management/v3/transferprocesses/{{transfer-process-id}}
+dataconsumer -> user : state
+
+== 03 Implement a simple "Consumer Pull" Http transfer flow ==
+user -> dataconsumer : 03.1 start transfer\nPOST http://localhost:29193/management/v3/transferprocesses\n{{contractAgreementId}}
 dataconsumer -> dataprovider : "magic"
 dataprovider -> dataconsumer
+dataconsumer -> user : {{transfer-process-id}}
+|||
+user -> dataconsumer : 03.2 get status transer\nGET http://localhost:29193/management/v3/transferprocesses/{{transfer-process-id}}
 dataconsumer -> user : state
+|||
+user -> dataconsumer : 03.3 check data\nGET http://localhost:29193/management/v3/edrs/{{transfer-process-id}}/dataaddress
+dataconsumer -> dataprovider : "magic
+dataprovider --> dataconsumer
+dataconsumer --> user : {{endpoint}}, {{authorization}}
+|||
+user -> dataprovider : 03.4 get data\nhttp://localhost:19291/public/\Header: 'Authorization: {{authorization}}'
+dataprovider --> user : data
+|||
+user -> dataprovider : 03.5 get data\nhttp://localhost:19291/public/1\Header: 'Authorization: {{authorization}}'
+dataprovider --> user : data
 
 @enduml
