@@ -1,7 +1,7 @@
 info:
   name: 03.1 start transfer (for file upload)
   type: http
-  seq: 2
+  seq: 1
 
 http:
   method: POST

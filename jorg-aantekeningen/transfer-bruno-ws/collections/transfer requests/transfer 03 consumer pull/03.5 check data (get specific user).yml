@@ -1,7 +1,7 @@
 info:
   name: 03.5 check data (get specific user)
   type: http
-  seq: 7
+  seq: 5
 
 http:
   method: GET
